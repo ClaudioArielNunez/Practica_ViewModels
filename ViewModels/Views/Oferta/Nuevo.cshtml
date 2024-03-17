@@ -4,3 +4,26 @@
 }
 
 <h2>Nuevo</h2>
+<hr />
+<form >
+    <div class="mb-3">
+        <label>Producto:</label>
+        <select class="form-select">
+            <option>Seleccione</option>
+            @foreach (var producto in Model.Productos)
+            {
+                <option value="@producto.IdProducto">@producto.Nombre</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Proveedor:</label>
+        <select class="form-select">
+            <option>Seleccione</option>
+            @foreach (var proveedor in Model.Proveedores)
+            {
+                <option value="@proveedor.IdProveedor" >@proveedor.RazonSocial</option>
+            }
+        </select>
+    </div>
+</form>

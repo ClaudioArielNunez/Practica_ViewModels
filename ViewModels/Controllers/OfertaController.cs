@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ViewModels.Models;
+using ViewModels.ViewModels;
 
 namespace ViewModels.Controllers
 {
@@ -13,10 +15,15 @@ namespace ViewModels.Controllers
         {
             return View();
         }
-
+        // GET: Nuevo
         public ActionResult Nuevo()
         {
-            return View();
+            //Instanciamos BD y ViewModel
+            PromocionesConnection BD = new PromocionesConnection();
+            OfertaViewModel viewModel = new OfertaViewModel();
+            viewModel.Productos = BD.Producto.ToList();
+            viewModel.Proveedores = BD.Proveedor.ToList();
+            return View(viewModel);
         }
     }
 }
