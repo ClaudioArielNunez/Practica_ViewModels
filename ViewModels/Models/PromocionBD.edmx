@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="OFERTAS_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="OFERTAS_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Oferta">
           <Key>
             <PropertyRef Name="IdOferta" />
@@ -74,11 +74,23 @@
             <End Role="Oferta" EntitySet="Oferta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="OFERTAS_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PromocionesConnection" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Oferta" EntityType="OFERTAS_DBModel.Oferta" />
+          <EntitySet Name="Producto" EntityType="OFERTAS_DBModel.Producto" />
+          <EntitySet Name="Proveedor" EntityType="OFERTAS_DBModel.Proveedor" />
+          <AssociationSet Name="FK_Oferta_Producto" Association="OFERTAS_DBModel.FK_Oferta_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Oferta" EntitySet="Oferta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Oferta_Proveedor" Association="OFERTAS_DBModel.FK_Oferta_Proveedor">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="Oferta" EntitySet="Oferta" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Oferta">
           <Key>
             <PropertyRef Name="IdOferta" />
@@ -89,35 +101,35 @@
           <Property Name="FechaInicio" Type="DateTime" Precision="0" />
           <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="PorcentajeDescuento" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_Oferta_Producto" FromRole="Oferta" ToRole="Producto" />
-          <NavigationProperty Name="Proveedor" Relationship="Self.FK_Oferta_Proveedor" FromRole="Oferta" ToRole="Proveedor" />
+          <NavigationProperty Name="Producto" Relationship="OFERTAS_DBModel.FK_Oferta_Producto" FromRole="Oferta" ToRole="Producto" />
+          <NavigationProperty Name="Proveedor" Relationship="OFERTAS_DBModel.FK_Oferta_Proveedor" FromRole="Oferta" ToRole="Proveedor" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
             <PropertyRef Name="IdProducto" />
           </Key>
           <Property Name="IdProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Referencia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Referencia" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ValorUnitario" Type="Double" Nullable="false" />
           <Property Name="Stock" Type="Int32" Nullable="false" />
           <Property Name="Activo" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Oferta" Relationship="Self.FK_Oferta_Producto" FromRole="Producto" ToRole="Oferta" />
+          <NavigationProperty Name="Oferta" Relationship="OFERTAS_DBModel.FK_Oferta_Producto" FromRole="Producto" ToRole="Oferta" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
             <PropertyRef Name="IdProveedor" />
           </Key>
           <Property Name="IdProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="RazonSocial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Oferta" Relationship="Self.FK_Oferta_Proveedor" FromRole="Proveedor" ToRole="Oferta" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RazonSocial" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Oferta" Relationship="OFERTAS_DBModel.FK_Oferta_Proveedor" FromRole="Proveedor" ToRole="Oferta" />
         </EntityType>
         <Association Name="FK_Oferta_Producto">
-          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
-          <End Role="Oferta" Type="Self.Oferta" Multiplicity="*" />
+          <End Type="OFERTAS_DBModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="OFERTAS_DBModel.Oferta" Role="Oferta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
               <PropertyRef Name="IdProducto" />
@@ -128,8 +140,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Oferta_Proveedor">
-          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
-          <End Role="Oferta" Type="Self.Oferta" Multiplicity="*" />
+          <End Type="OFERTAS_DBModel.Proveedor" Role="Proveedor" Multiplicity="1" />
+          <End Type="OFERTAS_DBModel.Oferta" Role="Oferta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Proveedor">
               <PropertyRef Name="IdProveedor" />
@@ -139,19 +151,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="PromocionesConnection" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Oferta" EntityType="Self.Oferta" />
-          <EntitySet Name="Producto" EntityType="Self.Producto" />
-          <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
-          <AssociationSet Name="FK_Oferta_Producto" Association="Self.FK_Oferta_Producto">
-            <End Role="Producto" EntitySet="Producto" />
-            <End Role="Oferta" EntitySet="Oferta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Oferta_Proveedor" Association="Self.FK_Oferta_Proveedor">
-            <End Role="Proveedor" EntitySet="Proveedor" />
-            <End Role="Oferta" EntitySet="Oferta" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -161,35 +160,35 @@
           <EntitySetMapping Name="Oferta">
             <EntityTypeMapping TypeName="OFERTAS_DBModel.Oferta">
               <MappingFragment StoreEntitySet="Oferta">
-                <ScalarProperty Name="IdOferta" ColumnName="IdOferta" />
-                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
-                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
                 <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="IdOferta" ColumnName="IdOferta" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Producto">
             <EntityTypeMapping TypeName="OFERTAS_DBModel.Producto">
               <MappingFragment StoreEntitySet="Producto">
-                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
-                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ValorUnitario" ColumnName="ValorUnitario" />
-                <ScalarProperty Name="Stock" ColumnName="Stock" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="ValorUnitario" ColumnName="ValorUnitario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Proveedor">
             <EntityTypeMapping TypeName="OFERTAS_DBModel.Proveedor">
               <MappingFragment StoreEntitySet="Proveedor">
-                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

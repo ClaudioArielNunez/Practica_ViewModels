@@ -25,5 +25,14 @@ namespace ViewModels.Controllers
             viewModel.Proveedores = BD.Proveedor.ToList();
             return View(viewModel);
         }
+
+        [HttpPost]
+        public ActionResult Nuevo(OfertaViewModel viewModel)
+        {
+            PromocionesConnection BD = new PromocionesConnection();
+            BD.Oferta.Add(viewModel.Oferta);
+            BD.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
